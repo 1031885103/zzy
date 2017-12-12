@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.CommodityMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Commodity" >
+    <id column="id" property="id" />
+    <result column="sn" property="sn" />
+    <result column="name" property="name" />
+    <result column="allergen" property="allergen" />
+    <result column="ingredient" property="ingredient"/>
+    <result column="image" property="image" />
+    <result column="state" property="state" />
+    <result column="sale_price" property="salePrice" />
+    <result column="display" property="display" />
+    <result column="remark" property="remark" />
+
+    <association property="brand" javaType="ProductBrand">
+      <id property="id" column="pb_id" />
+      <result column="pb_name" property="name" />
+    </association>
+
+    <association property="category" javaType="ProductType">
+      <id property="id" column="pt_id" />
+      <result property="category" column="pt_category" />
+      <result property="type" column="pt_type" />
+    </association>
+
+    <association property="origin" javaType="ProductManufacturer">
+      <id property="id" column="pm_id" />
+      <result property="address" column="pm_address" />
+    </association>
+  </resultMap>
+  <delete id="deleteByPrimaryKey">
+    delete from product
+    where id = #{id}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    insert into product (sn, name, allergen, ingredient, image, state,remark,
+      category_id, brand_id, origin_id, sale_price)
+    values (#{sn}, #{name}, #{allergen}, #{ingredient}, #{image}, #{state},#{remark},
+      #{category.id}, #{brand.id}, #{origin.id}, #{salePrice})
+  </insert>
+  <update id="updateByPrimaryKey">
+    update product
+    set sn = #{sn},
+      name = #{name},
+      allergen = #{allergen},
+      ingredient = #{ingredient},
+      image = #{image},
+      state = #{state},
+      remark = #{remark},
+      category_id = #{category.id},
+      brand_id = #{brand.id},
+      origin_id = #{origin.id},
+      sale_price = #{salePrice}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, sn, name, allergen, ingredient, image, state,remark, category_id,
+    brand_id, origin_id, sale_price
+    from product
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select p.id, p.sn, p.name, p.allergen, p.ingredient, p.image, p.state,p.remark, p.category_id,
+      p.brand_id, p.origin_id, p.sale_price,
+      pb.id pb_id,pb.name pb_name,
+      pm.id pm_id,pm.address pm_address,
+      pt.id pt_id,pt.category pt_category
+    from product p
+      join productbrand pb on p.brand_id = pb.id
+      join productmanufacturer pm on p.origin_id = pm.id
+      join producttype pt on p.category_id = pt.id
+  </select>
+
+  <sql id="base_where">
+    <where>
+      <if test="keyword1 != null">
+        and p.name like CONCAT('%',#{keyword1},'%')
+      </if>
+      <if test="keyword2 != null">
+        and p.ingredient like CONCAT('%',#{keyword2},'%')
+      </if>
+      <if test="categoryName !=null">
+        and pt.category like CONCAT('%',#{categoryName},'%')
+      </if>
+      <if test="brandName!=null">
+        and pb.name like CONCAT('%',#{brandName},'%')
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryData" resultMap="BaseResultMap">
+    select p.id, p.sn, p.name, p.allergen, p.ingredient, p.image, p.state,p.remark, p.category_id,
+      p.brand_id, p.origin_id, p.sale_price,
+      pb.id pb_id,pb.name pb_name,
+      pm.id pm_id,pm.address pm_address,
+      pt.id pt_id,pt.category pt_category
+    from product p
+      join productbrand pb on p.brand_id = pb.id
+      join productmanufacturer pm on p.origin_id = pm.id
+      join producttype pt on p.category_id = pt.id
+      <include refid="base_where"></include>
+      limit #{start},#{rows}
+  </select>
+
+  <select id="queryCount" resultType="long">
+    select count(p.id) from product p
+    join productbrand pb on p.brand_id = pb.id
+    join productmanufacturer pm on p.origin_id = pm.id
+    join producttype pt on p.category_id = pt.id
+      <include refid="base_where"></include>
+  </select>
+</mapper>

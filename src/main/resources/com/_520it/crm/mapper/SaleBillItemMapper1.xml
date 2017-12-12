@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.SaleBillItemMapper1" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.SaleBillItem" >
+    <id column="id" property="id" />
+    <result column="originalPrice" property="originalprice" />
+    <result column="discount" property="discount" />
+    <result column="realPrice" property="realprice" />
+    <result column="number" property="number" />
+    <result column="amount" property="amount" />
+    <result column="product_stock_id" property="productStockId" />
+    <result column="bill_id" property="billId" />
+    <association property="product" columnPrefix="p_" javaType="Product">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+      <result column="specification" property="specification"/>
+      <result column="sn" property="sn"/>
+      <result column="remark" property="remark"/>
+    </association>
+  </resultMap>
+
+
+  <sql id="baseWhere">
+    <where>
+      <if test="name != null and name != ''">
+        p.name = #{name}
+      </if>
+      <if test="startTime != null">
+        and sb.opTime >= #{startTime}
+      </if>
+      <if test="endTime != null">
+        and sb.opTime &lt;= #{endTime}
+      </if>
+    </where>
+  </sql>
+
+
+  <select id="queryDataCount" resultType="long">
+    select count(item.id) from salebillitem item join product p
+    on p.id = item.product_id
+    join salebill sb on sb.id = item.bill_id
+    <include refid="baseWhere"/>
+  </select>
+
+  <select id="queryDataList" resultMap="BaseResultMap">
+    select item.id, item.originalPrice, item.discount, item.realPrice, item.number,
+    item.amount, product_id, product_stock_id, bill_id,
+    p.name p_name, p.specification p_specification,
+    p.id p_id, p.sn p_sn, p.remark p_remark
+    from salebillitem item join product p
+    on p.id = item.product_id
+    join salebill sb on sb.id = item.bill_id
+    <include refid="baseWhere"/>
+
+  </select>
+
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select item.id, item.originalPrice, item.discount, item.realPrice, item.number,
+    item.amount, product_id, product_stock_id, bill_id,
+    p.name p_name, p.specification p_specification,
+    p.id p_id, p.sn p_sn, p.remark p_remark
+    from salebillitem item join product p
+    on p.id = item.product_id
+  </select>
+
+  <select id="selectByBillId" resultMap="BaseResultMap" >
+     select item.id, item.originalPrice, item.discount, item.realPrice, item.number,
+    item.amount, product_id, product_stock_id, bill_id,
+    p.name p_name, p.specification p_specification,
+    p.id p_id, p.sn p_sn, p.remark p_remark
+    from salebillitem item join product p
+    on p.id = item.product_id
+    where item.bill_id = #{billId}
+  </select>
+
+  <select id="selectCountByBillId" resultType="long">
+    select count(id) from salebillitem where bill_id = #{billId}
+  </select>
+
+</mapper>

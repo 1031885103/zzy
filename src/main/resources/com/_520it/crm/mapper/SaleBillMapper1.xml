@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.SaleBillMapper1" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.SaleBill1" >
+    <id column="id" property="id" />
+    <result column="sn" property="sn" />
+    <result column="opTime" property="opTime" />
+    <result column="state" property="state" />
+    <result column="discount" property="discount" />
+    <result column="totalNumber" property="totalNumber" />
+    <result column="totalAmount" property="totalAmount" />
+    <result column="realAmount" property="realAmount" />
+    <result column="payMethod" property="payMethod" />
+    <result column="remark" property="remark" />
+    <association property="member" javaType="com._520it.crm.domain.Member" columnPrefix="vip_">
+      <result column="id" property="id"/>
+      <result column="name" property="name"/>
+      <result column="VIPNumber" property="VIPNumber"></result>
+    </association>
+    <association property="saleman" javaType="com._520it.crm.domain.Employee" columnPrefix="emp_">
+      <result column="id" property="id"/>
+      <result column="name" property="realname"/>
+    </association>
+  </resultMap>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select sb.id, sb.sn, sb.opTime, sb.state, sb.discount, sb.totalAmount, sb.realAmount, sb.payMethod, sb.remark,
+    vip.id vip_id, vip.name vip_name,
+    emp.id emp_id, emp.realname emp_name
+    from salebill sb
+    left join member vip
+    on sb.vip_id = vip.id
+    join employee emp
+    on sb.saleman_id = emp.id
+    where sb.id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select <include refid="baseColumn"></include>
+    from <include refid="baseTable"></include>
+  </select>
+  
+  <select id="queryCount" resultType="long">
+    select count(sb.id) from <include refid="baseTable"></include>
+    <include refid="baseWhere"/>
+  </select>
+
+  <select id="queryList" resultMap="BaseResultMap">
+    select <include refid="baseColumn"></include>
+    from <include refid="baseTable"></include>
+    <include refid="baseWhere"/>
+
+  </select>
+
+  <select id="queryBarSaleChart" resultType="java.util.Map">
+    select DATE_FORMAT(vdate,#{timeFormat}) as chartType,
+    sum(costAmount) as totalCostAmount,
+    sum(saleAmount) as totalSaleAmount,
+    sum(saleAmount-costAmount) as profit
+    from saleaccount
+    group by chartType
+  </select>
+
+  <select id="queryPieSaleChart" resultType="java.util.Map">
+    select ${groupBy} as groupType,
+    sum(sa.number) as totalNumber,
+    sum(sa.saleAmount) as totalAmount,
+    sum(sa.saleAmount-costAmount) as profit
+    from saleaccount sa join product p
+    on sa.product_id = p.id
+    <include refid="chartWhere"/>
+    group by ${groupBy}
+  </select>
+
+  <sql id="chartWhere">
+    <where>
+      <if test="dateType != 0">
+        <choose>
+          <when test="dateType == 1">
+            vdate = #{opDate}
+          </when>
+          <otherwise>
+            (vdate &lt;= #{endTime}
+            and vdate >= #{startTime}
+            )
+          </otherwise>
+        </choose>
+      </if>
+    </where>
+  </sql>
+
+
+  <sql id="baseColumn">
+      sb.id, sb.sn, sb.opTime, sb.state, sb.discount, sb.totalAmount,
+      sb.totalNumber, sb.realAmount, sb.payMethod, sb.remark,
+      vip.id vip_id, vip.name vip_name, vip.sn vip_VIPNumber,
+      emp.id emp_id, emp.realname emp_name
+  </sql>
+  <sql id="baseTable">
+      salebill sb
+      left join vip vip
+      on sb.vip_id = vip.id
+      join employee emp
+      on sb.saleman_id = emp.id
+  </sql>
+
+  <sql id="baseWhere">
+    <where>
+      <if test="VIPNumber != null and VIPNumber > 0">
+        vip.sn = #{VIPNumber}
+      </if>
+      <if test="startTime != null">
+        and sb.opTime >= #{startTime}
+      </if>
+      <if test="endTime != null">
+        and sb.opTime &lt;= #{endTime}
+      </if>
+    </where>
+  </sql>
+
+</mapper>

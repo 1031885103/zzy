@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.ProductStockMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.ProductStock">
+        <id column="id" property="id"/>
+        <result column="salePrice" property="salePrice"/>
+        <result column="vsalePrice" property="vsalePrice"/>
+        <result column="storeNumber" property="storeNumber"/>
+        <result column="category" property="category"/>
+        <result column="specification" property="specification"/>
+        <result column="totalPrice" property="totalPrice"/>
+        <result column="state" property="state"/>
+        <result column="tsNumber" property="tsNumber"/>
+        <association property="product" javaType="com._520it.crm.domain.Product" columnPrefix="p_">
+            <result column="id" property="id"></result>
+            <result column="sn" property="sn"></result>
+            <result column="name" property="name"></result>
+            <result column="salePrice" property="salePrice"></result>
+            <result column="vsalePrice" property="vsalePrice"></result>
+            <result column="specification" property="specification"></result>
+        </association>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM productstock
+        WHERE id = #{id}
+    </delete>
+    <insert id="insert" parameterType="com._520it.crm.domain.ProductStock" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO productstock (salePrice, vsalePrice, storeNumber, category, specification,
+                                  totalPrice, state, product_id)
+        VALUES (#{salePrice}, #{vsalePrice}, #{storeNumber}, #{category}, #{specification},
+                #{totalPrice}, #{state}, #{productId})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.ProductStock">
+        UPDATE productstock
+        SET salePrice     = #{salePrice},
+            vsalePrice    = #{vsalePrice},
+            storeNumber   = #{storeNumber},
+            category      = #{category},
+            specification = #{specification},
+            totalPrice    = #{totalPrice},
+            state         = #{state},
+            product_id    = #{productId}
+        WHERE id = #{id}
+    </update>
+    <update id="updateStatus">
+        UPDATE productstock
+        SET storeNumber = #{storeNumber}
+        WHERE product_id = #{productId}
+    </update>
+    <update id="updateTsNumber">
+        UPDATE productstock
+        SET tsNumber = #{tsNumber}
+        WHERE product_id = #{productId}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+            id,
+            salePrice,
+            vsalePrice,
+            storeNumber,
+            category,
+            specification,
+            totalPrice,
+            state,
+            product_id
+        FROM productstock
+        WHERE id = #{id}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            id,
+            salePrice,
+            vsalePrice,
+            storeNumber,
+            category,
+            specification,
+            totalPrice,
+            state,
+            product_id
+        FROM productstock
+    </select>
+
+    <sql id="base_where">
+        <where>
+            <if test="keyword!=null">
+                AND  p.sn like concat('%',#{keyword},'%')
+            </if>
+            <if test="productName!=null and productName!=''">
+                AND  p.name like concat('%',#{productName},'%')
+            </if>
+        </where>
+    </sql>
+
+    <select id="queryPageCount" resultType="java.lang.Long">
+        SELECT count(ps.id)
+        FROM productstock ps JOIN product p ON ps.product_id = p.id
+        <include refid="base_where"></include>
+    </select>
+    <select id="queryPageDataResult" resultMap="BaseResultMap">
+        SELECT
+        ps.*,
+        p.id AS p_id,
+        p.sn AS p_sn,
+        p.name AS p_name,
+        p.sale_price AS p_salePrice,
+        p.vsale_price AS p_vsalePrice,
+        p.specification AS p_specification
+
+        FROM productstock ps
+        JOIN product p ON ps.product_id = p.id
+        <include refid="base_where"></include>
+        LIMIT #{start},#{rows}
+    </select>
+    <select id="queryByProductId" resultType="java.lang.Long">
+        SELECT ps.id
+        FROM productstock ps
+        WHERE ps.product_id = #{id}
+    </select>
+    <select id="selectByproductStockId" resultMap="BaseResultMap">
+        SELECT
+            ps.*,
+            p.id            AS p_id,
+            p.sn            AS p_sn,
+            p.name          AS p_name,
+            p.sale_price    AS p_salePrice,
+            p.vsale_price   AS p_vsalePrice,
+            p.specification AS p_specification
+
+        FROM productstock ps
+            JOIN product p ON ps.product_id = p.id
+        WHERE ps.id = #{productStockId}
+    </select>
+</mapper>

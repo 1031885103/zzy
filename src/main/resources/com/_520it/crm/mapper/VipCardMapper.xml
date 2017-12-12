@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com._520it.crm.mapper.VipCardMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.VipCard">
+        <id column="id" jdbcType="BIGINT" property="cardId" />
+        <result column="money" jdbcType="DECIMAL" property="cardMoney" />
+        <result column="balance" jdbcType="DECIMAL" property="cardBalance" />
+        <result column="totalmoney" jdbcType="DECIMAL" property="cardTotalMoney" />
+
+        <association property="vip" javaType="Vip" columnPrefix="vip_">
+            <id property="vipId" column="id"/>
+            <result property="vipSn" column="sn"/>
+            <result property="vipAddress" column="address"/>
+            <result property="vipName" column="name"/>
+            <result property="vipTel" column="tel"/>
+            <result property="vipGender" column="gender"/>
+            <result property="vipBirthday" column="birthday"/>
+            <result property="vipRemark" column="remark"/>
+        </association>
+
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from vipcard
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyProperty="id" parameterType="com._520it.crm.domain.VipCard" useGeneratedKeys="true">
+        insert into vipcard (money)
+        values (#{money,jdbcType=DECIMAL})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.VipCard">
+        update vipcard
+        set money = #{money,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <update id="updateByVipId" parameterType="VipCard">
+        update vipcard
+        set balance = #{cardMoney,jdbcType=DECIMAL}
+        where vip_id = #{vipId}
+    </update>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, money, balance, totalmoney
+        from vipcard
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, money, balance, totalmoney
+        from vipcard
+    </select>
+
+    <select id="queryCardMsgByVipId" resultMap="BaseResultMap">
+        select vc.id,vc.money,vc.balance,vc.totalmoney,
+        vip.id as vip_id,vip.sn as vip_sn,
+
+        vle.id as vle_id , vle.name as vle_name
+        from vipcard vc left join vip vip
+        on vc.vip_id = vip.id
+        left join viplevel vle
+        ON vip.viplevel_id = vle.id
+        where vc.vip_id = #{vipId};
+
+    </select>
+
+    <update id="subMoney">
+        UPDATE vipcard
+        SET balance = balance - #{amount}
+        WHERE vip_id = #{vipId}
+    </update>
+
+    <select id="selectVipMoney" resultMap="BaseResultMap">
+        select id, money, balance, totalmoney
+        FROM vipcard where vip_id = #{vipId}
+    </select>
+
+
+
+
+</mapper>

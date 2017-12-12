@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.SaleBillItemMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.SaleBillItem">
+        <id column="id" property="id"/>
+        <result column="originalPrice" property="originalprice"/>
+        <result column="discount" property="discount"/>
+        <result column="realPrice" property="realprice"/>
+        <result column="number" property="number"/>
+        <result column="amount" property="amount"/>
+        <result column="product_stock_id" property="productStockId"/>
+        <result column="bill_id" property="billId"/>
+
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM salebillitem
+        WHERE id = #{id}
+    </delete>
+    <insert id="insert"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO salebillitem (originalPrice, discount, realPrice, number, amount, product_id,
+                                  product_stock_id, bill_id, state)
+        VALUES (#{originalprice}, #{discount}, #{realprice}, #{number}, #{amount}, #{product.id},
+                #{productStockId}, #{billId}, #{state})
+    </insert>
+    <update id="updateByPrimaryKey" >
+        UPDATE salebillitem
+        SET originalPrice    = #{originalprice},
+            discount         = #{discount},
+            realPrice        = #{realprice},
+            number           = #{number},
+            amount           = #{amount},
+            product_id       = #{productId},
+            product_stock_id = #{productStockId},
+            bill_id          = #{billId}
+        WHERE id = #{id}
+    </update>
+    <update id="updateStoreItem">
+        UPDATE salebillitem
+        SET state = #{b}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+            id,
+            originalPrice,
+            discount,
+            realPrice,
+            number,
+            amount,
+            product_id,
+            product_stock_id,
+            bill_id
+        FROM salebillitem
+        WHERE id = #{id}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            id,
+            originalPrice,
+            discount,
+            realPrice,
+            number,
+            amount,
+            product_id,
+            product_stock_id,
+            bill_id
+        FROM salebillitem
+    </select>
+    <select id="selectByBillId" resultMap="BaseResultMap">
+        SELECT
+            id,
+            originalPrice,
+            discount,
+            realPrice,
+            number,
+            amount,
+            product_id,
+            product_stock_id,
+            bill_id
+        FROM salebillitem
+        WHERE bill_id = #{billId}
+    </select>
+
+    <delete id="deleteByBillId">
+        DELETE FROM salebillitem
+        WHERE bill_id = #{billId}
+    </delete>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com._520it.crm.mapper.CitiesMapper">
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Cities">
+    <id column="id" property="id" />
+    <result column="cityid" property="cityid" />
+    <result column="city" property="city" />
+    <result column="provinceid" property="provinceid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cities
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com._520it.crm.domain.Cities" useGeneratedKeys="true">
+    insert into cities (cityid, city, provinceid)
+    values (#{cityid}, #{city}, #{provinceid})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Cities">
+    update cities
+    set cityid = #{cityid},
+      city = #{city},
+      provinceid = #{provinceid}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, cityid, city, provinceid
+    from cities
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, cityid, city, provinceid
+    from cities
+  </select>
+  <select id="listByProvinceId" resultMap="BaseResultMap">
+    select id, cityid, city, provinceid
+    from cities where provinceid = #{id}
+  </select>
+</mapper>

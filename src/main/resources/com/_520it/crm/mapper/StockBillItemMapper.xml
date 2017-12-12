@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.StockBillItemMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.StockBillItem">
+        <id column="id" property="id"/>
+        <result column="inputtime" property="inputTime"/>
+        <result column="vdate" property="vdate"/>
+        <result column="costPrice" property="costPrice"/>
+        <result column="amount" property="amount"/>
+        <result column="totalPrice" property="totalPrice"/>
+        <result column="specification" property="specification"/>
+        <result column="minunit" property="minunit"/>
+        <result column="maxunit" property="maxunit"/>
+        <result column="born_date" property="bornDate"/>
+        <result column="safe_date" property="safeDate"/>
+        <result column="warning_date" property="warningDate"/>
+        <result column="warning_number" property="warningNumber"/>
+        <result column="stockMethod" property="stockMethod"/>
+        <result column="state" property="state"/>
+        <association property="product" javaType="com._520it.crm.domain.Product" columnPrefix="p_">
+            <id property="id" column="id"></id>
+            <result property="sn" column="sn"></result>
+            <result property="name" column="name"></result>
+            <result property="categoryName" column="category_name"></result>
+            <result property="originName" column="origin_name"></result>
+            <result property="brandName" column="brand_name"></result>
+            <result property="ingredient" column="ingredient"></result>
+            <result property="salePrice" column="salePrice"></result>
+            <result property="vsalePrice" column="vsalePrice"></result>
+            <result property="supplierName" column="supplier_name"></result>
+        </association>
+    </resultMap>
+    <delete id="deleteByPrimaryKey">
+    delete from stockbillitem
+    where id = #{id}
+  </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into stockbillitem (inputtime, vdate, costPrice, amount, totalPrice,specification,minunit,maxunit,
+       born_date, safe_date, warning_date, warning_number,stockMethod, state,
+      product_id)
+    values (#{inputTime}, #{vdate}, #{costPrice}, #{amount}, #{totalPrice},#{specification},
+      #{minunit},#{maxunit},#{bornDate}, #{safeDate}, #{warningDate}, #{warningNumber},#{stockMethod},#{state},
+      #{product.id})
+  </insert>
+    <update id="updateByPrimaryKey">
+    update stockbillitem
+    set inputtime = #{inputTime},
+      vdate = #{vdate},
+      costPrice = #{costPrice},
+      amount = #{amount},
+      totalPrice = #{totalPrice},
+      specification=#{specification}
+      minunit = #{minunit},
+      maxunit = #{maxunit},
+      born_date = #{bornDate},
+      safe_date = #{safeDate},
+      warning_date = #{warningDate},
+      warning_number = #{warningNumber},
+      stockMethod = #{stockMethod},
+      state = #{state},
+      product_id = #{product.id}
+    where id = #{id}
+  </update>
+    <update id="updateState">
+      update stockbillitem
+      set state = #{state},
+          vdate = #{vdate}
+      where id = #{id}
+    </update>
+    <sql id="baseColumns">
+        sb.id,
+        sb.inputtime,
+        sb.vdate,
+        sb.costPrice,
+        sb.amount,
+        sb.totalPrice,
+        sb.specification,
+        sb.minunit,
+        sb.maxunit,
+        sb.born_date,
+        sb.safe_date,
+        sb.warning_date,
+        sb.warning_number,
+        sb.stockMethod,
+        sb.state,
+        sb.product_id,
+        p.id p_id,
+        p.sn p_sn,
+        p.category_name p_category_name,
+        p.origin_name p_origin_name,
+        p.brand_name p_brand_name,
+        p.ingredient p_ingredient,
+        p.sale_price p_salePrice,
+        p.vsale_price p_vsalePrice,
+        p.supplier_name p_supplier_name,
+        p.name p_name
+    </sql>
+    <sql id="baseTable">
+         stockbillitem sb LEFT JOIN product p on sb.product_id = p.id
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"></include>
+        from
+        <include refid="baseTable"></include>
+        where sb.id = #{id}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"></include>
+        from
+        <include refid="baseTable"></include>
+    </select>
+    <sql id="baseWhere">
+        <where>
+            and sb.state = 0
+        </where>
+    </sql>
+    <select id="queryPageDataResult" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"></include>
+        from
+        <include refid="baseTable"></include>
+        <include refid="baseWhere"></include>
+        limit #{start},#{rows}
+    </select>
+    <select id="queryPageCount" resultType="long">
+        select
+        count(sb.id)
+        from stockbillitem sb
+        <include refid="baseWhere"></include>
+    </select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com._520it.crm.mapper.SubbranchMapper">
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Subbranch">
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="location" property="location" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from subbranch
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com._520it.crm.domain.Subbranch" useGeneratedKeys="true">
+    insert into subbranch (name, location)
+    values (#{name}, #{location})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Subbranch">
+    update subbranch
+    set name = #{name},
+      location = #{location}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, name, location
+    from subbranch
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, location
+    from subbranch
+  </select>
+
+
+  <sql id="base_where">
+    <where>
+      <if test="keyword!=null">
+        and (name like concat ('%',#{keyword},'%') or location like concat('%',#{keyword},'%'))
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryData" resultMap="BaseResultMap">
+    select id, name, location
+    from subbranch
+    <include refid="base_where" />
+    limit #{start},#{rows}
+  </select>
+
+  <select id="queryCount" resultType="long">
+    select count(id) from subbranch
+    <include refid="base_where" />
+  </select>
+</mapper>

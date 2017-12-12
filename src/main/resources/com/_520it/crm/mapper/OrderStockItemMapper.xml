@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.OrderStockItemMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.OrderStockItem">
+        <id column="id" property="id"/>
+        <result column="subbranch_name" property="subbranchName"/>
+        <result column="vdate" property="vdate"/>
+        <result column="state" property="state"/>
+        <result column="employee_name" property="employeeName"/>
+        <result column="remark" property="remark"/>
+        <association property="product" javaType="com._520it.crm.domain.Product" columnPrefix="p_">
+            <id property="id" column="id"></id>
+            <result property="sn" column="sn"></result>
+            <result property="name" column="name"></result>
+            <result property="categoryName" column="category_name"></result>
+            <result property="originName" column="origin_name"></result>
+            <result property="brandName" column="brand_name"></result>
+            <result property="ingredient" column="ingredient"></result>
+            <result property="salePrice" column="salePrice"></result>
+            <result property="vsalePrice" column="vsalePrice"></result>
+            <result property="supplierName" column="supplier_name"></result>
+        </association>
+    </resultMap>
+    <delete id="deleteByPrimaryKey">
+    delete from orderstockitem
+    where id = #{id}
+  </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    insert into orderstockitem (subbranch_name, vdate, state, employee_name, remark, product_id
+      )
+    values (#{subbranchName}, #{vdate}, #{state}, #{employeeName}, #{remark}, #{product.id}
+      )
+  </insert>
+    <update id="updateByPrimaryKey">
+    update orderstockitem
+    set subbranch_name = #{subbranchName},
+      vdate = #{vdate},
+      state = #{state},
+      employee_name = #{employeeName},
+      remark = #{remark},
+      product_id = #{product.id}
+    where id = #{id}
+  </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select id, subbranch_name, vdate, state, employee_name, remark, product_id
+    from orderstockitem
+    where id = #{id}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, subbranch_name, vdate, state, employee_name, remark, product_id
+    from orderstockitem
+  </select>
+    <sql id="baseColumns">
+        osi.id,
+        osi.subbranch_name,
+        osi.vdate,
+        osi.state,
+        osi.employee_name,
+        osi.remark,
+        osi.product_id,
+        p.id p_id,
+        p.sn p_sn,
+        p.category_name p_category_name,
+        p.origin_name p_origin_name,
+        p.brand_name p_brand_name,
+        p.ingredient p_ingredient,
+        p.sale_price p_salePrice,
+        p.vsale_price p_vsalePrice,
+        p.supplier_name p_supplier_name,
+        p.name p_name
+  </sql>
+    <sql id="baseWhere">
+        <where>
+            <if test="productSn!=null or productName!=null">
+            and ( p.sn like concat('%',#{productSn},'%') or p.name like concat('%',#{productName},'%'))
+          </if>
+            <if test="subbranchName!=null">
+                and osi.subbranch_name like concat('%',#{subbranchName},'%')
+            </if>
+        </where>
+    </sql>
+    <select id="queryPageData" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"></include>
+        from orderstockitem osi join product p on osi.product_id = p.id
+        <include refid="baseWhere"></include>
+        limit #{start},#{rows}
+    </select>
+    <select id="queryPageCount" resultType="long">
+        select count(osi.id)
+        from orderstockitem osi join product p on osi.product_id=p.id
+        <include refid="baseWhere"></include>
+    </select>
+</mapper>

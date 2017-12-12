@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.LogMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Log" >
+    <id column="id" property="id" />
+    <result column="opip" property="opIp" />
+    <result column="opmac" property="opMac" />
+    <result column="opdate" property="opDate" />
+    <result column="display" property="display" />
+    <association property="opUser" javaType="Employee">
+      <id property="id" column="e_id" />
+      <result column="e_username" property="username" />
+    </association>
+
+  </resultMap>
+  <delete id="deleteByPrimaryKey" >
+    delete from log
+    where id = #{id}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    insert into log (opuser_id, opip, opmac, opdate, display)
+    values (#{opUser.id}, #{opIp}, #{opMac}, #{opDate}, #{display})
+  </insert>
+  <update id="updateByPrimaryKey" >
+    update log
+    set opuser_id = #{opUser.id},
+      opip = #{opIp},
+      opmac = #{opMac},
+      opdate = #{opDate},
+      display = #{display}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"  >
+    select id, opuser_id, opip, opmac, opdate, display
+    from log
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, opuser_id, opip, opmac, opdate, display
+    from log
+  </select>
+
+  <sql id="base_where">
+    <where>
+      <if test="keyword!=null">
+        and e.username like concat ('%',#{keyword},'%')
+      </if>
+      <if test="beginTime !=null">
+        and l.opdate>=#{beginTime}
+      </if>
+      <if test="endTime!=null">
+        and l.opdate &lt;=#{endTime}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" resultType="long">
+    select count(l.id) from log l join employee e on l.opuser_id=e.id
+    <include refid="base_where"></include>
+  </select>
+
+  <select id="queryData" resultMap="BaseResultMap">
+    select l.id, l.opuser_id, l.opip, l.opmac, l.opdate, l.display,
+    e.id e_id,e.username e_username
+    from log l
+      join employee e on l.opuser_id=e.id
+    <include refid="base_where"></include>
+    limit #{start},#{rows}
+  </select>
+</mapper>

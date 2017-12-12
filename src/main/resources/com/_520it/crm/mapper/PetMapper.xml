@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.PetMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Pet" >
+    <id column="id" property="petId" jdbcType="BIGINT" />
+    <result column="name" property="petName" jdbcType="VARCHAR" />
+    <result column="birthday" property="petBirthday" jdbcType="DATE" />
+    <result column="gender" property="petGender" jdbcType="INTEGER" />
+    <result column="remark" property="petRemark" jdbcType="VARCHAR" />
+    <result column="material" property="petMaterial" jdbcType="INTEGER" />
+    <result column="colour" property="petColour" jdbcType="VARCHAR" />
+    <result column="trait" property="petTrait" jdbcType="VARCHAR" />
+    <result column="state" property="petState" jdbcType="INTEGER" />
+    <result column="ancestry" property="petAncestry" jdbcType="INTEGER" />
+
+    <result column="registernumber" property="petRegisterNumber" jdbcType="VARCHAR" />
+    <result column="registryaddress" property="petRegistryAddress" jdbcType="VARCHAR" />
+    <!--<result column="category_id" property="categoryId" jdbcType="BIGINT" />-->
+
+    <association property="vips" javaType="com._520it.crm.domain.Vip1" columnPrefix="v_">
+      <id property="vipId" column="id"/>
+      <result property="vipSn" column="sn"/>
+      <result property="vipAddress" column="address"/>
+      <result property="vipName" column="name"/>
+      <result property="vipTel" column="tel"/>
+      <result property="vipGender" column="gender"/>
+      <result property="vipBirthday" column="birthday"/>
+      <result property="vipRemark" column="remark"/>
+    </association>
+
+      <association property="vipLevel" javaType="com._520it.crm.domain.VipLevel1" columnPrefix="vel_">
+          <id property="vleId" column="id"/>
+          <result property="vleName" column="name"/>
+          <result property="vleServeDiscount" column="ServeDiscount"/>
+          <result property="vleProductDiscount" column="ProductDiscount"/>
+          <result property="vleEnable" column="Enable"/>
+      </association>
+
+
+    <association property="petCategory" javaType="PetCategory" columnPrefix="petCg_">
+        <id property="id" column="id"/>
+        <result property="name" column= "name"/>
+        <result property="parentId" column="parentId"/>
+    </association>
+
+    <association property="vipCard" javaType="VipCard1" columnPrefix="vc_">
+        <id property="cardId" column="id"/>
+        <result property="cardBalance" column="balance"/>
+    </association>
+
+
+
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from pet
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <!--================================================================-->
+  <insert id="insert" parameterType="com._520it.crm.domain.Pet" useGeneratedKeys="true" keyProperty="id" >
+    insert into pet (name, birthday, gender,
+      remark, material, colour,
+      trait, state, ancestry,
+      registernumber, registryaddress,category_id,vip_id)
+    values (#{petName,jdbcType=VARCHAR}, #{petBirthday,jdbcType=DATE}, #{petGender,jdbcType=INTEGER},
+      #{petRemark,jdbcType=VARCHAR}, #{petMaterial,jdbcType=INTEGER}, #{petColour,jdbcType=VARCHAR},
+      #{petTrait,jdbcType=VARCHAR}, #{petState,jdbcType=INTEGER}, #{petAncestry,jdbcType=INTEGER},
+      #{petRegisterNumber,jdbcType=VARCHAR}, #{petRegistryAddress,jdbcType=VARCHAR},#{petCategory.id},#{vips.vipId})
+  </insert>
+    <!--================================================================-->
+
+
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Pet" >
+    update pet
+    set name = #{name,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      gender = #{gender,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      material = #{material,jdbcType=INTEGER},
+      colour = #{colour,jdbcType=VARCHAR},
+      trait = #{trait,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      ancestry = #{ancestry,jdbcType=INTEGER},
+      registerNumber = #{registerNumber,jdbcType=VARCHAR},
+      registryAddress = #{registryAddress,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, name, birthday, gender, remark, material, colour, trait, state, ancestry, 
+    registerNumber, registryAddress, category_id
+    from pet
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, birthday, gender, remark, material, colour, trait, state, ancestry, 
+    registerNumber, registryAddress, category_id
+    from pet
+  </select>
+
+  <select id="queryForCount" resultType="long">
+      select count(p.id)
+      from pet p LEFT JOIN vip v
+      on p.vip_id = v.id
+      left join  petcategory petCg
+      on p.category_id = petCg.id
+      LEFT JOIN viplevel vel
+      on vel.id = v.viplevel_id
+      left join vipcard vc
+      on vc.vip_id = v.id
+
+      <include refid="base_where"/>
+  </select>
+
+
+  <select id="queryForList" resultMap="BaseResultMap">
+      select  p.id,p.name,p.gender,p.birthday,p.ancestry,p.colour,p.registernumber,p.registryaddress,p.trait,p.state,
+      petCg.id as petCg_id,petCg.name as petCg_name,
+      v.id as v_id,v.sn as v_sn, v.address as v_address,v.remark as v_remark,v.tel as v_tel,
+      vel.id as vel_id,vel.name as vel_name,vel.servediscount as vel_ServeDiscount,vel.productdiscount as vel_ServeDiscount,
+      vc.id as vc_id,vc.money as vc_money,vc.balance as vc_balance
+
+      from pet p LEFT JOIN vip v
+      on p.vip_id = v.id
+      left join  petcategory petCg
+      on p.category_id = petCg.id
+      LEFT JOIN viplevel vel
+      on vel.id = v.viplevel_id
+
+      left join vipcard vc
+      on vc.vip_id = v.id
+
+      <include refid="base_where"/>
+          limit #{start},#{rows}
+  </select>
+
+  <sql id="base_where">
+      <where>
+          <if test="selectPetName != null">
+              and p.name LIKE concat('%',#{selectPetName},'%')
+          </if>
+          <if test="selectVipTel != null">
+              and v.tel like concat('%',#{selectVipTel},'%')
+          </if>
+          <if test="selectVipRemark">
+              and v.remark like concat('%',#{selectVipRemark},'%')
+          </if>
+      </where>
+  </sql>
+
+
+</mapper>

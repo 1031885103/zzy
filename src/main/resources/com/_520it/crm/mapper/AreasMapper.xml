@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.AreasMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Areas" >
+    <id column="id" property="id" />
+    <result column="areaid" property="areaid" />
+    <result column="area" property="area" />
+    <result column="cityid" property="cityid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from areas
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="com._520it.crm.domain.Areas" useGeneratedKeys="true" keyProperty="id" >
+    insert into areas (areaid, area, cityid)
+    values (#{areaid}, #{area}, #{cityid})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Areas" >
+    update areas
+    set areaid = #{areaid},
+      area = #{area},
+      cityid = #{cityid}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, areaid, area, cityid
+    from areas
+    where id = #{id}
+  </select>
+  <select id="listByCityId" resultType="string" >
+    select area
+    from areas where cityid = #{cityId}
+  </select>
+</mapper>

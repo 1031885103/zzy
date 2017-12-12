@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.ProductMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.Product">
+        <id column="id" property="id"/>
+        <result column="sn" property="sn"/>
+        <result column="name" property="name"/>
+        <result column="allergen" property="allergen"/>
+        <result column="ingredient" property="ingredient"/>
+        <result column="remark" property="remark"/>
+        <result column="image" property="image"/>
+        <result column="state" property="state"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="origin_id" property="originId"/>
+        <result column="origin_name" property="originName"/>
+        <result column="sale_price" property="salePrice"/>
+        <result column="vsale_price" property="vsalePrice"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="supplier_name" property="supplierName"/>
+        <result column="specification" property="specification"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM product
+        WHERE id = #{id}
+    </delete>
+    <insert id="insert" parameterType="com._520it.crm.domain.Product" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product (sn, name, allergen, ingredient, remark, image, state,
+                             category_id, category_name, brand_id, brand_name, origin_id, origin_name,
+                             sale_price, vsale_price, supplier_id, supplier_name, specification)
+        VALUES (#{sn}, #{name}, #{allergen}, #{ingredient}, #{remark}, #{image}, #{state},
+                       #{categoryId}, #{categoryName}, #{brandId}, #{brandName}, #{originId}, #{originName},
+                #{salePrice}, #{vsalePrice}, #{supplierId}, #{supplierName}, #{specification})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Product">
+        UPDATE product
+        SET sn            = #{sn},
+            name          = #{name},
+            allergen      = #{allergen},
+            ingredient    = #{ingredient},
+            remark        = #{remark},
+            image         = #{image},
+            state         = #{state},
+            category_id   = #{categoryId},
+            category_name = #{categoryName},
+            brand_id      = #{brandId},
+            brand_name    = #{brandName},
+            origin_id     = #{originId},
+            origin_name   = #{originName},
+            sale_price    = #{salePrice},
+            vsale_price   = #{vsalePrice},
+            supplier_id   = #{supplierId},
+            supplier_name = #{supplierName},
+            specification = #{specification}
+        WHERE id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+            id,
+            sn,
+            name,
+            allergen,
+            ingredient,
+            remark,
+            image,
+            state,
+            category_id,
+            category_name,
+            brand_id,
+            brand_name,
+            origin_id,
+            origin_name,
+            sale_price,
+            vsale_price,
+            supplier_id,
+            supplier_name,
+            specification
+        FROM product
+        WHERE id = #{id}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            id,
+            sn,
+            name,
+            allergen,
+            ingredient,
+            remark,
+            image,
+            state,
+            category_id,
+            category_name,
+            brand_id,
+            brand_name,
+            origin_id,
+            origin_name,
+            sale_price,
+            vsale_price,
+            supplier_id,
+            supplier_name,
+            specification
+        FROM product
+    </select>
+    <select id="selectByProductName" resultType="com._520it.crm.domain.Product">
+        SELECT
+            id,
+            sn,
+            name,
+            allergen,
+            ingredient,
+            remark,
+            image,
+            state,
+            category_id,
+            category_name,
+            brand_id,
+            brand_name,
+            origin_id,
+            origin_name,
+            sale_price,
+            vsale_price,
+            supplier_id,
+            supplier_name,
+            specification
+        FROM product
+        WHERE name = #{name}
+    </select>
+    <select id="queryProductByProductName" resultMap="BaseResultMap">
+        select id, sn, name, allergen, ingredient, remark, image, state, category_id, category_name,
+        brand_id, brand_name, origin_id, origin_name, sale_price, vsale_price, supplier_id,supplier_name
+        from product
+        where name LIKE concat('%',#{productName},'%')
+    </select>
+    <select id="queryProductByProductSn" resultMap="BaseResultMap">
+        select id, sn, name, allergen, ingredient, remark, image, state, category_id, category_name,
+        brand_id, brand_name, origin_id, origin_name, sale_price, vsale_price, supplier_id,supplier_name
+        from product
+        where sn LIKE concat('%',#{productSn},'%')
+    </select>
+
+    <select id="queryProduct" resultMap="BaseResultMap">
+        select id, sn, name, allergen, ingredient, remark, image, state, category_id, category_name,
+        brand_id, brand_name, origin_id, origin_name, sale_price, vsale_price, supplier_id,supplier_name
+        from product
+    </select>
+</mapper>

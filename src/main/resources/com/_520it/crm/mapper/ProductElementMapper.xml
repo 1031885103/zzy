@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.ProductElementMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.ProductElement" >
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="display" property="display" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey">
+    delete from productelement
+    where id = #{id}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    insert into productelement (name, display)
+    values (#{name}, #{display})
+  </insert>
+  <update id="updateByPrimaryKey" >
+    update productelement
+    set name = #{name},
+      display = #{display}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select id, name, display
+    from productelement
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, display
+    from productelement
+  </select>
+
+  <sql id="base_where">
+    <where>
+      <if test="keyword!=null">
+        and name like concat ('%',#{keyword},'%')
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" resultType="long">
+    select count(id) from productelement
+    <include refid="base_where"></include>
+  </select>
+
+  <select id="queryData" resultMap="BaseResultMap">
+    select id,name from productelement
+    <include refid="base_where"></include>
+    limit #{start},#{rows}
+  </select>
+</mapper>

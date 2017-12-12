@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.VipMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.Vip">
+        <id column="id" property="id"/>
+        <result column="sn" property="sn"/>
+        <result column="address" property="address"/>
+        <result column="name" property="name"/>
+        <result column="tel" property="tel"/>
+        <result column="gender" property="gender"/>
+        <result column="birthday" property="birthday"/>
+        <result column="remark" property="remark"/>
+        <association property="vipLevel" javaType="com._520it.crm.domain.VipLevel" columnPrefix="vl_">
+            <result column="id" property="id"></result>
+            <result column="name" property="name"></result>
+            <result column="servediscount" property="serveDiscount"></result>
+            <result column="productdiscount" property="productDiscount"></result>
+            <result column="enable" property="enable"></result>
+        </association>
+
+        <association property="vipCard" javaType="com._520it.crm.domain.VipCard" columnPrefix="vc_">
+            <result column="id" property="id"></result>
+            <result column="balance" property="balance"></result>
+            <result column="totalmoney" property="totalMoney"></result>
+        </association>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM vip
+        WHERE id = #{id}
+    </delete>
+    <insert id="insert" parameterType="com._520it.crm.domain.Vip" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO vip (sn, address, name, tel, gender, birthday, remark, viplevel_id,
+        money_id)
+        VALUES (#{sn}, #{address}, #{name}, #{tel}, #{gender}, #{birthday}, #{remark}, #{viplevelId},
+        #{moneyId})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Vip">
+        UPDATE vip
+        SET sn          = #{sn},
+        address     = #{address},
+        name        = #{name},
+        tel         = #{tel},
+        gender      = #{gender},
+        birthday    = #{birthday},
+        remark      = #{remark},
+        viplevel_id = #{viplevelId},
+        money_id    = #{moneyId}
+        WHERE id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        v.id,
+        v.sn,
+        v.address,
+        v.name,
+        v.tel,
+        v.gender,
+        v.birthday,
+        v.remark,
+        v.money_id,
+        vl.id              AS vl_id,
+        vl.name            AS vl_name,
+        vl.servediscount   AS vl_servediscount,
+        vl.productdiscount AS vl_productdiscount,
+        vl.enable          AS vl_enable,
+        vc.id              AS vc_id,
+        vc.balance         AS vc_balance,
+        vc.totalmoney      AS vc_totalmoney
+
+
+        FROM vip v
+        JOIN viplevel vl ON v.viplevel_id = vl.id
+        JOIN vipcard vc ON v.money_id = vc.id
+        WHERE tel = #{tel}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        id,
+        sn,
+        address,
+        name,
+        tel,
+        gender,
+        birthday,
+        remark,
+        viplevel_id,
+        money_id
+        FROM vip
+    </select>
+    <select id="queryByVipCard" resultMap="BaseResultMap">
+        SELECT
+        v.id,
+        v.sn,
+        v.address,
+        v.name,
+        v.tel,
+        v.gender,
+        v.birthday,
+        v.remark,
+        v.money_id,
+        vl.id              AS vl_id,
+        vl.name            AS vl_name,
+        vl.servediscount   AS vl_servediscount,
+        vl.productdiscount AS vl_productdiscount,
+        vl.enable          AS vl_enable,
+        vc.id              AS vc_id,
+        vc.balance         AS vc_balance,
+        vc.totalmoney      AS vc_totalmoney
+
+
+        FROM vip v
+        JOIN viplevel vl ON v.viplevel_id = vl.id
+        JOIN vipcard vc ON v.money_id = vc.id
+        WHERE v.tel = #{vipCard}
+    </select>
+</mapper>
+

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.EmployeeMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.Employee">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="realName" property="realname"/>
+        <result column="password" property="password"/>
+        <result column="tel" property="tel"/>
+        <result column="email" property="email"/>
+        <result column="inputTime" property="inputtime"/>
+        <result column="state" property="state"/>
+        <result column="admin" property="admin"/>
+        <result column="status" property="status"/>
+        <result column="address" property="address"/>
+        <result column="storemaster" property="storeMaster"/>
+        <association property="dept" javaType="com._520it.crm.domain.Department">
+            <id column="dept_id" property="id"/>
+            <result column="dept_name" property="name"/>
+        </association>
+    </resultMap>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM employee
+        WHERE id = #{id}
+    </delete>
+    <insert id="insert" parameterType="com._520it.crm.domain.Employee" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO employee (username, realName, password,tel,email,dept_id, age,gender,inputTime, state, admin,storename,status, address,storeMaster)
+        VALUES (#{username}, #{realname}, #{password}, #{tel}, #{email}, #{dept.id},#{age}, #{gender},
+                #{inputtime}, #{state}, #{admin},#{storename}, #{status}, #{address}, #{storeMaster})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Employee">
+        update employee
+        <set>
+            username = #{username},
+            realName = #{realname},
+            tel = #{tel},
+            email = #{email},
+            dept_id = #{dept.id},
+            <if test="password!=null">
+      	password = #{password},
+      </if>
+            <if test="inputtime!=null">
+      	inputTime = #{inputtime},
+      </if>
+            <if test="state!=null">
+       	state = #{state},
+      </if>
+            <if test="admin!=null">
+      	admin = #{admin}
+      </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+            id,
+            username,
+            realName,
+            password,
+            tel,
+            email,
+            dept_id,
+            inputTime,
+            state,
+            admin,
+            storename,
+            address,
+            status
+        FROM employee
+        WHERE id = #{id}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            id,
+            username,
+            realName,
+            password,
+            tel,
+            email,
+            dept_id,
+            inputTime,
+            state,
+            admin,
+            storename,
+            address,
+            status
+        FROM employee
+    </select>
+
+    <select id="login" resultMap="BaseResultMap">
+        SELECT
+            id,
+            username,
+            realName,
+            password,
+            tel,
+            email,
+            inputTime,
+            state,
+            admin,
+            storename,
+            address,
+            status
+        FROM employee
+        WHERE username = #{username} AND password = #{password}
+    </select>
+
+    <sql id="condition_sql">
+        <where>
+            <if test="keyword!=null">
+  			 AND (emp.username like concat('%',#{keyword},'%') or emp.realname like concat('%',#{keyword},'%'))
+  		</if>
+            <if test="currentId!=null">
+                AND emp.id=#{currentId}
+            </if>
+        </where>
+    </sql>
+
+    <select id="queryPageCount" resultType="long">
+        select count(*) from employee emp
+        <include refid="condition_sql"/>
+    </select>
+    <select id="queryPageData" resultMap="BaseResultMap">
+        select
+        emp.id, emp.username, emp.realName, emp.password, emp.tel, emp.email, emp.inputTime, emp.state, emp.admin,
+        dept.id as dept_id,dept.`name` as dept_name
+        from employee emp LEFT JOIN department dept on (dept.id=emp.dept_id)
+        <include refid="condition_sql"/>
+        limit #{start},#{rows}
+    </select>
+
+    <update id="changeState">
+        UPDATE employee
+        SET state = #{employeeState}
+        WHERE id = #{employeeId}
+    </update>
+
+    <insert id="insertRelation">
+        INSERT INTO employee_role (employee_id, role_id) VALUES (#{employeeId}, #{roleId})
+    </insert>
+
+    <select id="queryPermissionByEmployeeId" resultType="com._520it.crm.domain.Permission">
+        SELECT *
+        FROM permission
+        WHERE id IN (
+            SELECT permission_id
+            FROM role_permission
+            WHERE role_id IN
+                  (
+                      SELECT role_id
+                      FROM employee_role
+                      WHERE employee_id = #{employeeId}
+                  )
+        )
+    </select>
+    <select id="queryByUsername" resultType="com._520it.crm.domain.Employee">
+        SELECT *
+        FROM employee
+        WHERE username = #{username}
+    </select>
+    <delete id="deleteRelation">
+        DELETE FROM employee_role
+        WHERE employee_id = #{employeeId}
+    </delete>
+    <!--**********************************************************-->
+    <select id="queryUserByUsername" resultMap="BaseResultMap">
+        select id, storename, username, password, age, email, tel, gender, admin, inputtime, storeMaster,
+        outputtime, salary, status, address
+        from user where username = #{username} and password = #{password}
+    </select>
+    <select id="checkUsername" resultType="com._520it.crm.domain.Employee">
+        select id, storename, username, address
+        from employee where username = #{username}
+    </select>
+    <update id="updatePsw">
+        update employee set password = #{password} where username = #{username}
+    </update>
+</mapper>

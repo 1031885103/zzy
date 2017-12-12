@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.ProductManufacturerMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.ProductManufacturer" >
+    <id column="id" property="id" />
+    <result column="address" property="address" />
+    <result column="display" property="display" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey">
+    delete from productmanufacturer
+    where id = #{id}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    insert into productmanufacturer (address, display)
+    values (#{address}, #{display})
+  </insert>
+  <update id="updateByPrimaryKey" >
+    update productmanufacturer
+    set address = #{address},
+      display = #{display}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select id, address, display
+    from productmanufacturer
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, address, display
+    from productmanufacturer
+  </select>
+
+  <sql id="base_where">
+    <where>
+      <if test="keyword!=null">
+        and address like concat ('%',#{keyword},'%')
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryData" resultMap="BaseResultMap">
+    select id, address, display from productmanufacturer
+    <include refid="base_where"></include>
+    limit #{start},#{rows}
+  </select>
+
+  <select id="queryCount" resultType="long">
+    select count(id) from productmanufacturer
+    <include refid="base_where"></include>
+  </select>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.SupplierMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Supplier" >
+    <id column="id" property="id" />
+    <result column="sn" property="sn" />
+    <result column="name" property="name" />
+    <result column="contacts" property="contacts" />
+    <result column="phone" property="phone" />
+    <result column="product" property="product" />
+    <result column="cooperation" property="cooperation" />
+    <result column="advantage" property="advantage" />
+    <result column="display" property="display" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey">
+    delete from supplier
+    where id = #{id}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    insert into supplier (sn, name, contacts, phone, product, cooperation, advantage,display)
+    values (#{sn}, #{name}, #{contacts}, #{phone}, #{product}, #{cooperation}, #{advantage},#{display})
+  </insert>
+  <update id="updateByPrimaryKey">
+    update supplier
+    set sn = #{sn},
+      name = #{name},
+      contacts = #{contacts},
+      phone = #{phone},
+      product = #{product},
+      cooperation = #{cooperation},
+      advantage = #{advantage},
+      display=#{display}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select id, sn, name, contacts, phone, product, cooperation, advantage,display
+    from supplier
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, sn, name, contacts, phone, product, cooperation, advantage,display
+    from supplier
+  </select>
+
+  <sql id="base_where">
+    <where>
+      <if test="keyword!=null">
+        and name like concat ('%',#{keyword},'%')
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryData" resultMap="BaseResultMap">
+    select id, sn, name, contacts, phone, product, cooperation, advantage,display
+    from supplier
+    <include refid="base_where"></include>
+    limit #{start},#{rows}
+  </select>
+
+  <select id="queryCount" resultType="long">
+    select count(id) from supplier
+    <include refid="base_where"></include>
+  </select>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.VipMapper1" >
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.Vip1" >
+        <id column="id" property="vipId" jdbcType="BIGINT" />
+        <result column="sn" property="vipSn" jdbcType="VARCHAR" />
+        <result column="address" property="vipAddress" jdbcType="VARCHAR" />
+        <result column="name" property="vipName" jdbcType="VARCHAR" />
+        <result column="tel" property="vipTel" jdbcType="VARCHAR" />
+        <result column="gender" property="vipGender" jdbcType="INTEGER" />
+        <result column="birthday" property="vipBirthday" jdbcType="DATE" />
+        <result column="remark" property="vipRemark" jdbcType="VARCHAR" />
+
+    </resultMap>
+
+
+    <delete id="deleteByPrimaryKey">
+        delete from vip
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="vipId" >
+        insert into vip (sn, address, name,
+        tel, gender, birthday,
+        remark)
+        values (#{vipSn,jdbcType=VARCHAR}, #{vipAddress,jdbcType=VARCHAR}, #{vipName,jdbcType=VARCHAR},
+        #{vipTel,jdbcType=VARCHAR}, #{vipGender,jdbcType=INTEGER}, #{vipBirthday,jdbcType=DATE},
+        #{vipRemark,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" >
+        update vip
+        set sn = #{sn,jdbcType=VARCHAR},
+        address = #{address,jdbcType=VARCHAR},
+        name = #{name,jdbcType=VARCHAR},
+        tel = #{tel,jdbcType=VARCHAR},
+        gender = #{gender,jdbcType=INTEGER},
+        birthday = #{birthday,jdbcType=DATE},
+        remark = #{remark,jdbcType=VARCHAR},
+        viplevel_id = #{viplevelId,jdbcType=BIGINT},
+        money_id = #{moneyId,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        select id, sn, address, name, tel, gender, birthday, remark, viplevel_id,
+        money_id
+        from vip
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select id, sn, address, name, tel, gender, birthday, remark, viplevel_id,
+        money_id
+        from vip
+    </select>
+
+
+</mapper>

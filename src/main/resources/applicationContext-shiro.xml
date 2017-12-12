@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+			">
+    <!--配置自定义Realm ,安全管理器,shiroFilter-->
+    <bean class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" id="securityManager">
+        <property name="realm" ref="userRealm"></property>
+        <!-- 记住我 -->
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+    <bean class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" id="shiroFilter">
+        <property name="securityManager" ref="securityManager"></property>
+        <property name="loginUrl" value="/login"></property>
+        <property name="successUrl" value="/main"/>
+        <property name="filters">
+            <map>
+                <entry key="authc" value-ref="extendFormAuthencationFilter"></entry>
+            </map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                /static/**=anon
+                /CodeController/**=anon
+                /register/**=anon
+                /login/sendEmail=anon
+                /main/resetPsw=anon
+                /logout=logout
+                <!--记住登录-->
+                <!-- 配置记住我或认证通过可以访问的地址 -->
+                /register.jsp=user
+                /login.jsp=user
+                /main.jsp=user
+                /**=authc
+            </value>
+        </property>
+    </bean>
+    <!--匹配凭证器-->
+    <bean id="credentialsMatcher"
+          class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="md5" />
+        <property name="hashIterations" value="1" />
+    </bean>
+    <!-- rememberMeManager管理器 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="rememberMeCookie" />
+    </bean>
+    <!-- 记住我cookie -->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe" />
+        <!-- 记住我cookie生效时间30天 -->
+        <property name="maxAge" value="2592000" />
+    </bean>
+    <bean id="formAuthenticationFilter" class="com._520it.crm.filter.ExtendFormAuthencationFilter">
+        <!--表单中账户和密码的input框名称-->
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <!--记住我input框名称-->
+        <property name="rememberMeParam" value="rememberMe"/>
+    </bean>
+</beans>

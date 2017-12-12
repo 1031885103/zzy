@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.RankMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Rank" >
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="servediscount" property="servediscount" />
+    <result column="productdiscount" property="productdiscount" />
+    <result column="display" property="display" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" >
+    delete from viplevel
+    where id = #{id}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    insert into viplevel (name, servediscount, productdiscount, enable)
+    values (#{name}, #{servediscount}, #{productdiscount}, #{enable})
+  </insert>
+  <update id="updateByPrimaryKey" >
+    update viplevel
+    set name = #{name},
+      servediscount = #{servediscount},
+      productdiscount = #{productdiscount},
+      enable = #{enable}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select id, name, servediscount, productdiscount, enable
+    from viplevel
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, servediscount, productdiscount, enable
+    from viplevel
+  </select>
+
+  <sql id="base_where">
+    <where>
+      <if test="keyword!=null">
+        and name like concat('%',#{keyword},'%')
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryData" resultMap="BaseResultMap">
+    select id, name, servediscount, productdiscount, enable
+    from viplevel
+    <include refid="base_where"></include>
+    limit #{start},#{rows}
+  </select>
+
+  <select id="queryCount" resultType="long">
+    select count(id) from viplevel
+    <include refid="base_where"></include>
+  </select>
+</mapper>

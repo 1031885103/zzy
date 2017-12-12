@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.SaleBillMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO salebill (sn, opTime, state, discount, totalNumber, totalAmount, realAmount, payMethod, remark, saleman_id, vip_id, vip_card)
+        VALUES
+            (#{sn}, #{optime}, #{state}, #{discount}, #{totalNumber}, #{totalAmount}, #{realAmount}, #{payMethod}, #{remark}, #{salemanId}, #{vipId},
+             #{vipCard})
+    </insert>
+    <update id="updateByPrimaryKey"></update>
+    <update id="updateState"></update>
+    <update id="updateStoreBill">
+        UPDATE salebill
+        SET state = 1
+    </update>
+
+    <delete id="deleteByPrimaryKey"></delete>
+    <select id="selectByPrimaryKey" resultType="com._520it.crm.domain.SaleBill"></select>
+    <select id="selectAll" resultType="com._520it.crm.domain.SaleBill"></select>
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.SaleBill">
+        <id column="id" property="id"/>
+        <result column="sn" property="sn"/>
+        <result column="opTime" property="optime"/>
+        <result column="state" property="state"/>
+        <result column="discount" property="discount"/>
+        <result column="totalNumber" property="totalNumber"/>
+        <result column="totalAmount" property="totalAmount"/>
+        <result column="realAmount" property="realAmount"/>
+        <result column="payMethod" property="payMethod"/>
+        <result column="remark" property="remark"/>
+        <result column="vip_id" property="vipId"></result>
+        <result column="vip_card" property="vipCard"></result>
+        <result column="saleman_id" property="salemanId"></result>
+        <association property="subBranch" javaType="com._520it.crm.domain.Subbranch" columnPrefix="b_">
+            <result column="id" property="id"></result>
+            <result column="name" property="name"></result>
+            <result column="location" property="location"></result>
+        </association>
+        <collection property="items" ofType="com._520it.crm.domain.Salebillitem" select="com._520it.crm.mapper.SaleBillItemMapper.selectByBillId"
+                    column="id"></collection>
+    </resultMap>
+
+
+    <sql id="base_where">
+        <where>
+            <if test="vipId!=null and vipId!=''">
+                AND  sb.vip_card like concat(#{vipId},'%')
+            </if>
+            <if test="storeId >0">
+                AND sb.branch_id=#{storeId}
+            </if>
+            <if test="beginTime!=null and beginTime!=''">
+                AND sb.optime>=#{beginTime}
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                AND sb.optime&lt;=#{endTime}
+            </if>
+        </where>
+    </sql>
+
+    <select id="queryPageCount" resultType="java.lang.Long">
+        SELECT count(sb.id)
+        FROM salebill sb LEFT JOIN subbranch b ON sb.branch_id = b.id
+        <include refid="base_where"></include>
+    </select>
+    <select id="queryPageDataResult" resultMap="BaseResultMap">
+        SELECT
+        sb.*,
+        b.id AS b_id,
+        b.name AS b_name,
+        b.location AS b_location
+        FROM salebill sb
+        LEFT JOIN subbranch b ON sb.branch_id = b.id
+        <include refid="base_where"></include>
+        LIMIT #{start}, #{rows}
+    </select>
+    <select id="queryStoreBill" resultMap="BaseResultMap">
+        SELECT
+            sb.*,
+            b.id       AS b_id,
+            b.name     AS b_name,
+            b.location AS b_location
+        FROM salebill sb
+            LEFT JOIN subbranch b ON sb.branch_id = b.id
+        WHERE sb.state = 1
+        LIMIT #{start}, #{rows}
+    </select>
+
+</mapper>

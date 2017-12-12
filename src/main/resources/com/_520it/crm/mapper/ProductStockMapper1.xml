@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.ProductStockMapper1">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.ProductStock1">
+        <id column="id" property="id"/>
+        <result column="salePrice" property="salePrice"/>
+        <result column="vsalePrice" property="vsalePrice"/>
+        <result column="bulkNumber" property="bulkNumber"/>
+        <result column="storeNumber" property="storeNumber"/>
+        <result column="category" property="category"/>
+        <result column="specification" property="specification"/>
+        <result column="totalPrice" property="totalPrice"/>
+        <result column="state" property="state"/>
+        <result column="warning_number" property="warningNumber"/>
+        <!--关联商品-->
+        <association property="product" javaType="com._520it.crm.domain.Product" columnPrefix="p_">
+            <id property="id" column="id"></id>
+            <result property="sn" column="sn"></result>
+            <result property="name" column="name"></result>
+            <result property="categoryName" column="category_name"></result>
+            <result property="originName" column="origin_name"></result>
+            <result property="brandName" column="brand_name"></result>
+            <result property="ingredient" column="ingredient"></result>
+            <result property="salePrice" column="salePrice"></result>
+            <result property="vsalePrice" column="vsalePrice"></result>
+            <result property="supplierName" column="supplier_name"></result>
+        </association>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from productstock
+    where id = #{id}
+  </delete>
+    <insert id="insert" parameterType="com._520it.crm.domain.ProductStock" useGeneratedKeys="true" keyProperty="id">
+    insert into productstock (salePrice, vsalePrice, bulkNumber, storeNumber, category, 
+      specification, totalPrice, state, product_id, warning_number)
+    values (#{salePrice}, #{vsalePrice}, #{bulkNumber}, #{storeNumber}, #{category},
+      #{specification}, #{totalPrice}, #{state}, #{product.id}, #{warningNumber})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.ProductStock">
+    update productstock
+    set salePrice = #{salePrice},
+      vsalePrice = #{vsalePrice},
+      bulkNumber = #{bulkNumber},
+      storeNumber = #{storeNumber},
+      category = #{category},
+      specification = #{specification},
+      totalPrice = #{totalPrice},
+      state = #{state},
+      product_id = #{product.id},
+      warning_number = #{warningNumber}
+    where id = #{id}
+  </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select id, salePrice, vsalePrice, bulkNumber, storeNumber, category, specification, 
+    totalPrice, state, product_id, warning_number
+    from productstock
+    where id = #{id}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, salePrice, vsalePrice, bulkNumber, storeNumber, category, specification, 
+    totalPrice, state, product_id, warning_number
+    from productstock
+  </select>
+    <sql id="baseColumns">
+        ps.id,
+        ps.salePrice,
+        ps.vsalePrice,
+        ps.bulkNumber,
+        ps.storeNumber,
+        ps.category,
+        ps.specification,
+        ps.totalPrice,
+        ps.state,
+        ps.product_id,
+        ps.warning_number,
+        p.id p_id,
+        p.sn p_sn,
+        p.category_name p_category_name,
+        p.origin_name p_origin_name,
+        p.brand_name p_brand_name,
+        p.ingredient p_ingredient,
+        p.sale_price p_salePrice,
+        p.vsale_price p_vsalePrice,
+        p.supplier_name p_supplier_name,
+        p.name p_name
+    </sql>
+    <sql id="baseWhere">
+        <where>
+            <if test="productSn!=null or productName!=null">
+                and ( p.sn like concat('%',#{productSn},'%') or p.name like concat('%',#{productName},'%'))
+            </if>
+        </where>
+    </sql>
+    <select id="queryPageData" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"></include>
+        from productstock ps join product p on ps.product_id=p.id
+        <include refid="baseWhere"></include>
+        limit #{start},#{rows}
+    </select>
+    <select id="queryPageCount" resultType="long">
+        select count(ps.id)
+        from productstock ps join product p on ps.product_id=p.id
+        <include refid="baseWhere"></include>
+    </select>
+    <select id="selectProductId" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"></include>
+        from productstock ps join product p on ps.product_id=p.id
+        WHERE p.id=#{productId}
+    </select>
+    <!--出库-->
+    <select id="updateByOrderProduct">
+    update productstock
+    set
+      storeNumber = #{storeNumber},
+      totalPrice = #{totalPrice}
+    where id = #{id}
+    </select>
+
+    <select id="queryForStockCount" resultType="long">
+        select count(ps.id)
+        FROM
+        productstock ps join product p on ps.product_id=p.id
+        WHERE
+        ps.warning_number >= ps.storeNumber
+    </select>
+
+    <select id="queryForStockData" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"></include>
+        from
+        productstock ps join product p on ps.product_id=p.id
+        WHERE
+        ps.warning_number >= ps.storeNumber
+        limit #{start},#{rows}
+    </select>
+</mapper>

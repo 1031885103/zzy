@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.VipLevelMapper1" >
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.VipLevel1" >
+        <id column="id" property="vleId" jdbcType="BIGINT" />
+        <result column="name" property="vleName" jdbcType="VARCHAR" />
+        <result column="servediscount" property="vleServeDiscount" jdbcType="DECIMAL" />
+        <result column="productdiscount" property="vleProductDiscount" jdbcType="DECIMAL" />
+        <result column="enable" property="vleEnable" jdbcType="INTEGER" />
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from viplevel
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com._520it.crm.domain.VipLevel1" useGeneratedKeys="true" keyProperty="id" >
+        insert into viplevel (name, servediscount, productdiscount,
+        enable)
+        values (#{name,jdbcType=VARCHAR}, #{servediscount,jdbcType=DECIMAL}, #{productdiscount,jdbcType=DECIMAL},
+        #{enable,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.VipLevel1" >
+        update viplevel
+        set name = #{name,jdbcType=VARCHAR},
+        servediscount = #{servediscount,jdbcType=DECIMAL},
+        productdiscount = #{productdiscount,jdbcType=DECIMAL},
+        enable = #{enable,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select id, name, servediscount, productdiscount, enable
+        from viplevel
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select id, name, servediscount, productdiscount, enable
+        from viplevel
+    </select>
+    <select id="queryLevelCount" resultMap="BaseResultMap">
+        select vle.name, vle.servediscount,vle.productdiscount
+        from viplevel vle
+        where vle.id = #{selectId}
+    </select>
+
+
+</mapper>

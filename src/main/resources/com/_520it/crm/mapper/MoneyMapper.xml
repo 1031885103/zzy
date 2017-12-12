@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.MoneyMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Money" >
+    <id column="id" property="id" />
+    <result column="sn" property="sn" />
+    <result column="name" property="name" />
+    <result column="salary" property="salary" />
+    <result column="job" property="job" />
+    <result column="traffic" property="traffic" />
+    <result column="tel" property="tel" />
+    <result column="meal" property="meal" />
+    <result column="every" property="every" />
+    <result column="proportion" property="proportion" />
+    <result column="holiday" property="holiday" />
+    <result column="total" property="total" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from money
+    where id = #{id}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    insert into money (sn, name, salary, job, traffic, tel, meal, every, 
+      proportion, holiday, total)
+    values (#{sn}, #{name}, #{salary}, #{job}, #{traffic}, #{tel}, #{meal}, #{every}, 
+      #{proportion}, #{holiday}, #{total})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Money" >
+    update money
+    set sn = #{sn},
+      name = #{name},
+      salary = #{salary},
+      job = #{job},
+      traffic = #{traffic},
+      tel = #{tel},
+      meal = #{meal},
+      every = #{every},
+      proportion = #{proportion},
+      holiday = #{holiday},
+      total = #{total}
+    where id = #{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, sn, name, salary, job, traffic, tel, meal, every, proportion, holiday, 
+    total
+    from money
+    where id = #{id}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, sn, name, salary, job, traffic, tel, meal, every, proportion, holiday, 
+    total
+    from money
+  </select>
+
+  <sql id="base_where">
+    <where>
+      <if test="keyword!=null">
+        AND name like concat('%',#{keyword},'%')
+      </if>
+    </where>
+  </sql>
+
+
+  <select id="queryData" resultMap="BaseResultMap">
+    select id, sn, name, salary, job, traffic, tel, meal, every, proportion, holiday,
+    total
+    from money
+    <include refid="base_where"></include>
+    limit #{start},#{rows}
+  </select>
+
+  <select id="queryCount" resultType="long">
+    select count(id) from money
+    <include refid="base_where"></include>
+  </select>
+</mapper>

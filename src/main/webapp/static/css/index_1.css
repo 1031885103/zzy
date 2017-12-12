@@ -1,0 +1,99 @@
+/* ::::: http://pet.byiaa.com/Content/registerstyle.css ::::: */
+
+a, abbr, acronym, address, applet, article, aside, audio, b, blockquote, big, body, center, canvas, caption, cite, code, command, datalist, dd, del, details, dfn, dl, div, dt, em, embed, fieldset, figcaption, figure, font, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, keygen, label, legend, li, meter, nav, object, ol, output, p, pre, progress, q, s, samp, section, small, span, source, strike, strong, sub, sup, table, tbody, tfoot, thead, th, tr, tdvideo, tt, u, ul, var { margin: 0px; padding: 0px; font-style: normal; }
+.clr::after { content: ""; display: block; height: 0px; clear: both; }
+ul, li { list-style: outside none none; }
+img { border: medium none; }
+input, button, select, textarea { outline: medium none; }
+a, button, input, i {  }
+.fl { float: left; }
+.db { display: block; }
+div { background: transparent none repeat scroll 0% 0%; }
+body { margin: 0px auto; background: transparent url('/static/images/register/bgsss.jpg') repeat scroll center top / cover ; font-size: 14px; font-family: "微软雅黑",Gotham,"Helvetica Neue",Helvetica,Arial,sans-serif; color: rgb(102, 102, 102); min-width: 1280px; }
+.inputsec { width: 840px; margin: 0px auto; background: rgb(255, 255, 255) none repeat scroll 0% 0%; padding: 0px 0px 100px 360px; }
+.inputsec ul, .inputsec ul li { display: block; min-width: 400px; }
+.inputsec ul li { clear: both; overflow: visible; line-height: 50px; color: rgb(51, 51, 51); }
+.inputsec ul li label { display: block; width: 72px; text-align: right; }
+.txt-m { margin: 10px 12px 0px 0px; height: 28px; line-height: 28px; padding: 2px 3px 2px 15px; border: 1px solid rgb(222, 222, 222); color: rgb(102, 102, 102); width: 292px; font-size: 14px; }
+.txt-y, .txt-j { line-height: 28px; height: 28px; padding-top: 2px; padding-left: 15px; color: rgb(102, 102, 102); width: 160px; border: medium none; font-size: 14px; }
+.chgs { display: block; color: rgb(153, 153, 153); }
+.mr2 { margin-right: 3px; }
+.yzm2 { background: rgb(245, 245, 245) none repeat scroll 0% 0%; margin: 10px 12px 0px 0px; height: 32px; line-height: 32px; border: 1px solid rgb(222, 222, 222); width: 200px; }
+.txt-j { background: rgb(245, 245, 245) none repeat scroll 0% 0%; }
+.send { width: 96px; height: 32px; line-height: 32px; text-align: center; margin: 10px 0px 0px; border: 1px solid rgb(222, 222, 222); border-radius: 5px; }
+.ui-step::after { clear: both; content: " "; display: block; font-size: 0px; height: 0px; visibility: hidden; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-all.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-common.css ::::: */
+
+html { color: rgb(0, 0, 0); background: rgb(255, 255, 255) none repeat scroll 0% 0%; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td { margin: 0px; padding: 0px; }
+fieldset, img { border: 0px none; }
+li { list-style: outside none none; }
+q::before, q::after { content: ""; }
+input, textarea, select { font-family: inherit; font-size: inherit; font-weight: inherit; }
+body { font-family: "微软雅黑","宋体",Arial,sans-serif; font-size: 12px; }
+.ui-helper-clearfix::before, .ui-helper-clearfix::after { content: ""; display: table; border-collapse: collapse; }
+.ui-helper-clearfix::after { clear: both; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-dialog.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-form.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-grid.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-layout.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-menu.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-tab.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-tree.css ::::: */
+
+/* ::::: http://pet.byiaa.com/Content/jquery.autocomplete.css ::::: */
+
+/* ::::: http://pet.byiaa.com/Content/jquery.bigautocomplete.css ::::: */
+
+/* ::::: http://pet.byiaa.com/Content/newstyle.css ::::: */
+
+body { font-family: "微软雅黑"; font-size: 12px; overflow-x: hidden; }
+input, select { border: 1px solid rgb(208, 208, 208); padding-left: 3px; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/all.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/tab.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/dialog.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/form.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/grid.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Gray2014/css/all.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Gray2014/css/common.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Gray2014/css/tab.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Gray2014/css/layout.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Gray2014/css/dialog.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Gray2014/css/form.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Gray2014/css/grid.css ::::: */
+
+/* ::::: http://pet.byiaa.com/Content/JS/UserDetailedInfo/StoreList.css ::::: */
+
+.dpImg { padding-left: 141px; padding-top: 81px; width: 350px; height: 350px; }
+.con_info { line-height: 28px; font-size: 14px; }
+.Contact_tit { height: 15px; line-height: 60px; font-size: 18px; }
+.sc_btn { width: 130px; height: 40px; margin-top: 20px; background: rgb(219, 219, 219) none repeat scroll 0% 0%; color: rgb(255, 255, 255); border-radius: 5px; font-size: 14px; margin-right: 10px; border: medium none; cursor: pointer; }
+.sc_btn:hover { background: rgb(196, 196, 196) none repeat scroll 0% 0%; cursor: pointer; }
+.kjtb { width: 80px; height: 80px; margin-top: 40px; background: rgb(107, 107, 107) none repeat scroll 0% 0%; color: rgb(255, 255, 255); border-radius: 5px; float: left; padding: 15px 0px 5px 30px; font-size: 14px; cursor: pointer; margin-right: 20px; border: medium none; }
+.kjtb:hover { background: rgb(255, 102, 0) none repeat scroll 0% 0%; }
+.kjtb { width: 50px; height: 50px; font-size: 12px; padding: 15px; margin: 20px 40px 0px 0px; }
+.kjtb img { width: 40px; height: 25px; margin-left: 5px; }
+.txt-m { width: 250px; }
+.yzm2 { width: 165px; }
+.txt-y, .txt-j { width: 150px; }
+.update_info { float: left; font-size: 14px; border: 1px solid rgb(217, 217, 217); border-radius: 5px; padding: 2px 10px; background-color: rgb(221, 221, 221); color: rgb(102, 102, 102); margin: 15px 7px 7px; }
+.update_info:hover { background: rgb(255, 102, 0) none repeat scroll 0% 0%; color: rgb(255, 255, 255); }

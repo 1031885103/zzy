@@ -1,0 +1,156 @@
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-all.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-common.css ::::: */
+
+html { color: rgb(0, 0, 0); background: rgb(255, 255, 255) none repeat scroll 0% 0%; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td { margin: 0px; padding: 0px; }
+fieldset, img { border: 0px none; }
+li { list-style: outside none none; }
+q::before, q::after { content: ""; }
+input, textarea, select { font-family: inherit; font-size: inherit; font-weight: inherit; }
+body { font-family: "微软雅黑","宋体",Arial,sans-serif; font-size: 12px; }
+.l-dragging-mask { width: 100%; height: 100%; overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 11000; display: none; background: white none repeat scroll 0% 0%; opacity: 0.01; }
+.l-drop-move-up { background: transparent url('drop-icons.gif') no-repeat scroll -40px 0px; width: 9px; height: 9px; overflow: hidden; position: absolute; top: 0px; }
+.l-drop-move-down { background: transparent url('drop-icons.gif') no-repeat scroll -60px 0px; width: 9px; height: 9px; overflow: hidden; position: absolute; bottom: 0px; }
+.ui-helper-clearfix::before, .ui-helper-clearfix::after { content: ""; display: table; border-collapse: collapse; }
+.ui-helper-clearfix::after { clear: both; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-dialog.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-form.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-grid.css ::::: */
+
+.l-selected .l-grid-row-cell, .l-selected { background: rgb(220, 248, 168) none repeat scroll 0% 0%; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-layout.css ::::: */
+
+.l-layout { position: relative; }
+.l-layout-left, .l-layout-right, .l-layout-center, .l-layout-top, .l-layout-bottom, .l-layout-centerbottom { position: absolute; border: 1px solid rgb(190, 213, 243); background: white none repeat scroll 0% 0%; z-index: 10; overflow: hidden; }
+.l-layout-bottom { width: 100%; }
+.l-layout-header { position: relative; padding-left: 10px; color: rgb(24, 49, 82); font-weight: bold; height: 25px; line-height: 24px; background: rgb(229, 239, 254) url('layout-header.gif') repeat-x scroll 0% 0%; overflow: hidden; cursor: pointer; }
+.l-layout-header-inner { padding-right: 22px; }
+.l-layout-collapse-left, .l-layout-collapse-right { width: 24px; background: rgb(234, 242, 254) none repeat scroll 0% 0%; border: 1px solid rgb(184, 208, 214); position: absolute; top: 0px; display: none; height: 100%; z-index: 10; }
+.l-layout-collapse-left-toggle, .l-layout-collapse-right-toggle { position: absolute; height: 20px; width: 20px; overflow: hidden; background: transparent url('togglebar.gif') repeat scroll 0% 0%; cursor: pointer; }
+.l-layout-collapse-left { left: 2px; }
+.l-layout-collapse-left-toggle { top: 0px; right: 2px; background-position: -20px -40px; }
+.l-layout-collapse-right { right: 2px; }
+.l-layout-collapse-right-toggle { top: 0px; left: 2px; background-position: -20px 0px; }
+.l-layout-dragging-xline { background: rgb(224, 228, 226) none repeat scroll 0% 0%; height: 4px; position: absolute; display: none; z-index: 9999; padding: 0px; margin: 0px; line-height: 1px; overflow: hidden; }
+.l-layout-dragging-yline { background: rgb(224, 228, 226) none repeat scroll 0% 0%; width: 4px; position: absolute; display: none; z-index: 9999; padding: 0px; margin: 0px; }
+.l-layout-lock { position: absolute; width: 100%; height: 100%; display: none; z-index: 9990; margin: 0px; padding: 0px; }
+.l-layout-content { position: relative; background: white none repeat scroll 0% 0%; overflow: hidden; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-menu.css ::::: */
+
+.l-menu { border: 1px solid rgb(151, 151, 151); background: rgb(245, 245, 245) none repeat scroll 0% 0%; position: absolute; overflow: hidden; padding-bottom: 2px; z-index: 1001; }
+.l-menu-shadow { z-index: 1000; background: rgb(221, 221, 221) none repeat scroll 0% 0%; border-radius: 5px; box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2); position: absolute; }
+.l-menu-inner { position: relative; width: 100%; z-index: 103; }
+.l-menu-over { position: absolute; top: -24px; left: 2px; z-index: 102; height: 22px; overflow: hidden; background: transparent url('menu-item-over-m.gif') repeat-x scroll 0% 0%; width: 97%; }
+.l-menu-yline { background: transparent url('menu-line-y.gif') repeat-y scroll 0% 0%; width: 2px; height: 2000px; position: absolute; left: 28px; top: 1px; z-index: 101; }
+.l-menu-over-l { background: transparent url('menu-item-over-l.gif') no-repeat scroll 0% 0%; width: 28px; height: 22px; position: absolute; top: 0px; left: 0px; }
+.l-menu-over-r { background: transparent url('menu-item-over-r.gif') no-repeat scroll 0% 0%; width: 3px; height: 22px; position: absolute; top: 0px; right: 0px; }
+.l-menu-item { position: relative; height: 23px; line-height: 23px; width: 100%; cursor: pointer; }
+.l-menu-item-text { color: rgb(0, 0, 0); left: 33px; position: absolute; top: 0px; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-tab.css ::::: */
+
+.l-tab-loading { position: absolute; z-index: 91000; top: 0px; left: 0px; background: white url('bigloading.gif') no-repeat scroll center 40%; width: 100%; height: 100%; display: none; }
+.l-tab-links { position: relative; height: 26px; width: 100%; overflow: hidden; background: transparent url('tabs-bg.gif') repeat-x scroll 0% 0%; border-bottom: 1px solid rgb(190, 213, 243); }
+.l-tab-itemswitch { width: 26px; border-top-right-radius: 3px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; position: relative; }
+.l-tab-links .l-tab-itemswitch a { width: 7px; height: 4px; line-height: 4px; background: transparent url('tabs-tools.gif') repeat scroll 0px -30px; position: absolute; left: 50%; top: 50%; margin-left: -4px; margin-top: -2px; }
+.l-tab-links ul { list-style: outside none none; margin: 0px; padding: 0px; width: 9999px; height: 26px; overflow: hidden; position: absolute; top: 0px; left: 0px; }
+.l-tab-links li { float: left; margin: 0px 0px 0px 2px; padding: 0px; height: 26px; line-height: 26px; cursor: pointer; background: transparent url('tabs-item-bg.gif') repeat scroll 0% 0%; position: relative; overflow: hidden; border: medium none; }
+.l-tab-links li.l-selected { background: transparent url('tabs-item-over-bg.gif') repeat scroll 0% 0%; }
+.l-tab-links li a { display: block; margin-left: 6px; margin-right: 37px; text-decoration: none; color: rgb(51, 51, 51); }
+.l-tab-links-item-left { position: absolute; top: 0px; left: 0px; width: 2px; height: 26px; background: transparent url('tabs-item-left-bg.gif') repeat scroll 0% 0%; }
+.l-tab-links-item-right { position: absolute; top: 0px; right: 0px; width: 2px; height: 26px; background: transparent url('tabs-item-right-bg.gif') repeat scroll 0% 0%; }
+.l-tab-content { margin: 0px auto; padding: 0px; border: medium none; width: 100%; }
+.l-tab-content-item { width: 100%; height: 100%; overflow: hidden; position: relative; }
+.l-tab-content-item iframe { width: 100%; height: 100%; border: medium none; }
+.l-tab-drag-droptip { width: 9px; position: absolute; top: 30px; left: 30px; height: 44px; z-index: 1000; }
+.l-tab-drag-droptip .l-drop-move-up { position: absolute; top: 0px; }
+.l-tab-drag-droptip .l-drop-move-down { position: absolute; bottom: 0px; }
+.l-drop-move-up { background: transparent url('drop-icons.gif') no-repeat scroll -40px 0px; width: 9px; height: 9px; overflow: hidden; }
+.l-drop-move-down { background: transparent url('drop-icons.gif') no-repeat scroll -60px 0px; width: 9px; height: 9px; overflow: hidden; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Aqua/css/ligerui-tree.css ::::: */
+
+/* ::::: http://pet.byiaa.com/Content/jquery.autocomplete.css ::::: */
+
+/* ::::: http://pet.byiaa.com/Content/jquery.bigautocomplete.css ::::: */
+
+/* ::::: http://pet.byiaa.com/Content/newstyle.css ::::: */
+
+body { font-family: "微软雅黑"; font-size: 12px; overflow-x: hidden; }
+input, select { border: 1px solid rgb(208, 208, 208); padding-left: 3px; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/all.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/tab.css ::::: */
+
+.l-tab-links { background: transparent none repeat scroll 0% 0%; border: medium none; }
+.l-tab-links li { background: transparent none repeat scroll 0% 0%; border: medium none; }
+.l-tab-loading { position: absolute; z-index: 999; top: 0px; left: 0px; background: white url('bigloading_001.gif') no-repeat scroll center 40%; width: 100%; height: 100%; display: none; }
+.l-tab-links { position: relative; margin: 0px 18px -1px; height: 29px; overflow: hidden; z-index: 1; }
+.l-tab-links ul { padding: 2px 0px 0px 1px; list-style: outside none none; width: 9999px; overflow: hidden; position: absolute; top: 0px; left: 0px; }
+.l-tab-links li { float: left; margin: 0px 0px 0px -1px; padding: 0px; display: inline; height: 28px; line-height: 28px; cursor: pointer; position: relative; overflow: hidden; border: 1px solid rgb(222, 222, 222); }
+.l-tab-links li:first-child { border-top-left-radius: 2px; }
+.l-tab-links li:last-child { border-top-right-radius: 2px; }
+.l-tab-links li.l-selected { height: 30px; line-height: 30px; top: -2px; border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(244, 244, 244); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; z-index: 10; border-top-left-radius: 2px; border-top-right-radius: 2px; background: rgb(244, 244, 244) none repeat scroll 0% 0%; }
+.l-tab-links li a { display: block; margin: 0px 30px 0px 10px; text-decoration: none; color: rgb(170, 170, 170); -moz-user-select: none; }
+.l-tab-links li.l-selected a { color: rgb(51, 51, 51); font-size: 14px; font-weight: bold; }
+.l-tab-links-item-left, .l-tab-links-item-right { display: none; }
+.l-tab-content { margin: 0px auto; padding: 0px; border-top: 1px solid rgb(214, 214, 214); width: 100%; }
+.l-tab-content-item { width: 100%; overflow: hidden; position: relative; }
+.l-tab-content-item iframe { width: 100%; height: 100%; border: medium none; }
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/dialog.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/form.css ::::: */
+
+/* ::::: http://pet.byiaa.com/ligerUI/skins/Tab/css/grid.css ::::: */
+
+.l-selected .l-grid-row-cell, .l-selected { background: rgb(252, 239, 154) none repeat scroll 0% 0%; }
+/* ::::: http://pet.byiaa.com/Content/style1.css ::::: */
+
+html { font-family: "Microsoft Yahei"; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td { margin: 0px; padding: 0px; }
+ol, ul { list-style: outside none none; }
+body { font-family: "Microsoft Yahei"; color: rgb(60, 60, 60); font-size: 14px; }
+a { text-decoration: none; color: rgb(41, 146, 218); cursor: pointer; }
+* { padding: 0px; margin: 0px; font-family: "Microsoft Yahei"; }
+input { padding: 0px; margin: 0px; border: medium none; }
+body {  }
+/* ::::: http://pet.byiaa.com/Content/style.css ::::: */
+
+body { font: 12px Verdana,Arial,Helvetica,sans-serif; }
+* { list-style-type: none; margin: 0px; padding: 0px; border: thin none; }
+.head { width: 100%; height: 30px; margin-bottom: 5px; }
+.left { width: 73px; height: 100%; }
+#nav { position: absolute; background-color: rgb(57, 57, 57); height: 100%; }
+#nav div:hover { background: rgb(102, 102, 102) none repeat scroll 0% 0%; }
+#nav div a { font-weight: bold; font-size: 12px; line-height: 16px; font-family: "Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif; color: rgb(255, 255, 255); text-decoration: none; }
+#nav div { height: 8%; border-bottom: 1px solid rgb(113, 113, 113); float: left; text-align: center; padding: 16% 10px 2%; }
+#nav div img { margin-left: 3px; float: left; height: 26px; }
+/* ::::: http://pet.byiaa.com/Content/top.css ::::: */
+
+.head { width: 100%; height: 30px; background-color: rgb(57, 57, 57); margin-bottom: 5px; }
+.top_left { float: left; font-size: 16px; padding-left: 10px; font-weight: bold; font-family: "Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif; }
+.top_right { float: right; color: rgb(255, 255, 255); font-size: 14px; }
+.top_right a { color: rgb(255, 255, 255); text-decoration: none; line-height: 30px; font-size: 14px; }
+.wc { color: rgb(204, 204, 204); }
+.tel { color: rgb(255, 0, 0); }
+@media only screen and (min-device-width: 780px) and (max-device-width: 1920px) {
+	.head { width: 100%; height: 45px; line-height: 45px; }
+}
+/* ::::: http://pet.byiaa.com/Content/JS/UserDetailedInfo/StoreList.css ::::: */
+
+body { min-width: 1250px; overflow-x: auto; }
+#main { margin: 0px; padding: 0px; overflow: visible; }
+.pageTop { height: 45px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; }
+.pageBottom { height: 30px; line-height: 30px; text-align: center; color: rgb(218, 218, 218); background: rgb(57, 57, 57) none repeat scroll 0% 0%; font-size: 12px; width: 100%; }
+.l-layout-left { border: 0px none; }
+.l-layout-center { border: 0px none; }
+.l-layout-bottom { border-left: 0px none; border-top: 0px none; }
+.l-layout-header { height: 28px; background: rgb(57, 57, 57) none repeat scroll 0% 0%; }
+div [position="left"] { background: rgb(50, 50, 50) none repeat scroll 0% 0%; }
+.tip { position: absolute; top: 25px; left: -13px; z-index: 10000; border: 1px solid rgb(255, 195, 64); width: 150px; height: 20px; line-height: 20px; padding-left: 5px; background-color: rgb(255, 252, 199); border-radius: 5px; display: none; text-align: center; color: red; }
+.tip1 { position: absolute; z-index: 10000; border: 1px solid rgb(255, 195, 64); line-height: 20px; padding: 8px; background-color: rgb(255, 252, 199); border-radius: 5px; display: none; color: rgb(255, 0, 0); right: 115px; }
+.selected {
+	background: #fc6621;
+	cursor: pointer;
+}
